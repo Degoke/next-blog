@@ -11,7 +11,7 @@ import { useBlogPosts } from "@/library/hooks";
 import { chunk } from "@/library/utils";
 
 const HomePage: NextPageWithLayout = () => {
-  const articlesPerPage = 8;
+  const articlesPerPage = 6;
   const [activePage, setActivePage] = useState(1);
   const [total, setTotal] = useState(1);
   const [posts, setPosts] = useState<Post[]>([]);

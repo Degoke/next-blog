@@ -19,7 +19,7 @@ const HomePage: NextPageWithLayout = () => {
   const { isLoading, isError, data, error } = useBlogPosts();
 
   const handleSearch = (title: string) => {
-    setPosts(data?.filter((data) => data.title.includes(title)) || []);
+    setPosts(data?.filter((data) => data.title.trim().toLowerCase().includes(title.trim().toLowerCase())) || []);
   };
 
   useEffect(() => {

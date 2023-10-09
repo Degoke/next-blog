@@ -38,6 +38,11 @@ const SingleBlogPost = ({ post, onDelete, onEdit, isLoading }: PageProps) => {
     onEdit({
       postId: post.id,
       post: { comments },
+    }, 
+    {
+      onSuccess: () => {
+        setComment("")
+      }
     });
   };
   return (
@@ -70,8 +75,8 @@ const SingleBlogPost = ({ post, onDelete, onEdit, isLoading }: PageProps) => {
       <Title order={3} mb={16}>
         Add Comment
       </Title>
-      <Textarea mb={16} onChange={(e) => setComment(e.target.value)} />
-      <Button variant="light" mb={16} onClick={addComment} loading={isLoading}>
+      <Textarea mb={16} value={comment} onChange={(e) => setComment(e.target.value)} />
+      <Button variant="light" mb={16} onClick={addComment} loading={isLoading} disabled={!comment}>
         Comment
       </Button>
 

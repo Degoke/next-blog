@@ -1,4 +1,4 @@
-import { Group, Burger } from "@mantine/core";
+import { Group, Burger, Center } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./Header.module.css";
 import Link from "next/link";
@@ -20,12 +20,11 @@ export default function Header() {
   return (
     <header className={classes.header}>
       <div className={classes.inner}>
-        <Group>
-          <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
-        </Group>
-        <Group ml={50} gap={5} className={classes.links} visibleFrom="sm">
+        <Center>
+        <Group ml={50} gap={5} className={classes.links}>
           {items}
         </Group>
+        </Center>
       </div>
     </header>
   );

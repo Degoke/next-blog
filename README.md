@@ -22,14 +22,14 @@ This is a simple blog application built with Next.js, React Query, Firebase and 
 
 ## Demo
 
-You can access a live demo of the application [here](#).
+You can access a live demo of the application [here](https://next-blog-degoke.vercel.app/).
 
 ## Technologies Used
 
 - **Next.js**: A React framework for building server-rendered React applications.
 - **React Query**: A library for managing and caching data fetching in React.
 - **Firebase**: A cloud-based platform for building web and mobile applications, including Firestore for data storage.
-- **[Mantine]**: A fully featured react component library.
+- **Mantine**: A fully featured react component library.
 
 ## Getting Started
 

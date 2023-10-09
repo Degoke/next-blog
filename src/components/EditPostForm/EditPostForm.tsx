@@ -34,7 +34,7 @@ const EditPostForm = ({ onEdit, post, error, isLoading }: PageProps) => {
   const handleCreate = () => {
     const editedPost = {
       title,
-      content: editor?.editor.getHTML() || "",
+      content: editor ? editor.editor.getHTML() : post.content,
       updatedTimestamp: new Date().toUTCString(),
     };
     onEdit(
@@ -65,6 +65,7 @@ const EditPostForm = ({ onEdit, post, error, isLoading }: PageProps) => {
         visible={isLoading}
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
+        h="100%"
       />
       <Textarea
         placeholder="Post Title"
@@ -75,7 +76,7 @@ const EditPostForm = ({ onEdit, post, error, isLoading }: PageProps) => {
       />
 
       <TextEditor content={content} onUpdate={setEditor} />
-      <Button mt={16} onClick={handleCreate} disabled={!editor || !title}>
+      <Button mt={16} onClick={handleCreate} loading={isLoading}>
         Save
       </Button>
       <Modal opened={opened} onClose={close} withCloseButton={false}>

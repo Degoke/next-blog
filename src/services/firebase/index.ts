@@ -38,7 +38,7 @@ export const db = getFirestore(app);
 export const fetchBlogPosts = async (): Promise<Post[]> => {
   const docsQuery = query(
     collection(db, "blogPosts"),
-    orderBy("createdTimestamp")
+    orderBy("createdTimestamp", "desc")
   );
   const snapshot = await getDocs(docsQuery);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Post[];

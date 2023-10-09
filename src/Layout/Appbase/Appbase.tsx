@@ -1,7 +1,7 @@
 import Header from "@/components/Header/Header";
 import { Center, Container } from "@mantine/core";
 
-export default function Appbase({ children }) {
+export default function Appbase({ children }: { children: React.ReactNode}) {
   return (
     <>
       <Header />

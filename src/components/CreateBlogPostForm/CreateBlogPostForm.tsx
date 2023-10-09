@@ -43,6 +43,7 @@ const CreateBlogPostForm = ({
       content: newContent as string,
       createdTimestamp: new Date().toISOString(),
       updatedTimestamp: new Date().toISOString(),
+      comments: []
     };
     onCreate(newPost, {
       onSuccess: () => {

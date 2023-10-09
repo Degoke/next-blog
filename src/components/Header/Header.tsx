@@ -9,7 +9,6 @@ const links = [
 ];
 
 export default function Header() {
-  const [opened, { toggle }] = useDisclosure(false);
 
   const items = links.map((link) => (
     <Link key={link.label} href={link.link} className={classes.link}>

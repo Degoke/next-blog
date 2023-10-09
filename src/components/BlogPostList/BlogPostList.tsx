@@ -2,7 +2,7 @@
 import { Post } from '@/library/types';
 import Link from 'next/link';
 import { BlogPost } from '../BlogPost/BlogPost';
-import { Alert, Grid, Pagination, SimpleGrid, Skeleton, Title } from '@mantine/core';
+import { Alert, Center, Grid, Loader, Pagination, SimpleGrid, Skeleton, Title } from '@mantine/core';
 
 type PageProps = {
   posts: Post[] | undefined
@@ -11,11 +11,14 @@ type PageProps = {
   error: any
   total: number
   activePage: number
+  setActivePage: any
 }
 
-const BlogPostList = ({ posts, isError, isLoading, error, total, activePage }: PageProps) => {
+const BlogPostList = ({ posts, isError, isLoading, error, total, activePage, setActivePage }: PageProps) => {
   if (isLoading) {
-    return <Skeleton />
+    return <Center>
+      <Loader />
+    </Center>
   }
 
   if (isError) {
@@ -24,15 +27,21 @@ const BlogPostList = ({ posts, isError, isLoading, error, total, activePage }: P
     </Alert>
   }
 
-  if (!posts) {
+  if (!posts || posts.length === 0) {
     return <Alert variant='light' title="No Posts Here">
-      There are no post yet
+      No Posts Found
+      <br/> 
+      <Link href="/">
+      Back to Posts
+      </Link>
     </Alert>
   }
   return (
     <div>
       <Title order={2}>Blog Posts</Title>
-      <SimpleGrid cols={2}>
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}
+      spacing={{ base: 10, sm: 'xl' }}
+      verticalSpacing={{ base: 'md', sm: 'xl' }}>
         {posts.map((post) => (
           <div key={post.id}>
             <Link href={`/posts/${post.id}`}>
@@ -41,7 +50,7 @@ const BlogPostList = ({ posts, isError, isLoading, error, total, activePage }: P
           </div>
         ))}
       </SimpleGrid>
-      <Pagination total={total} value={activePage} />
+      <Pagination total={total} value={activePage} onChange={setActivePage} />
     </div>
   );
 };

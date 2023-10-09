@@ -4,17 +4,12 @@ export type Post = {
     content: string
     createdTimestamp: string
     updatedTimestamp: string
+    comments: string[]
 }
 
 export type UncreatedPost = Omit<Post, 'id'>
 
 export type UpdatePostParams = {
     postId: string
-    post: Omit<Post, "createdTimestamp" | "id">
-}
-
-export type FetchPostsParams = {
-    limit: number
-    start: number
-    title: string
+    post: Partial<Post>
 }

@@ -2,10 +2,11 @@
 import Appbase from '@/Layout/Appbase/Appbase';
 import SingleBlogPost from '@/components/SingleBlogPost/SingleBlogPost';
 import { Post } from '@/library/types';
-import { deleteBlogPost, fetchBlogPost, fetchBlogPosts } from '@/services/firebase';
+import { deleteBlogPost, fetchBlogPost, fetchBlogPosts, updateBlogPost } from '@/services/firebase';
 import { Alert, Loader } from '@mantine/core';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 function useBlogPost(id: string) {
@@ -28,6 +29,14 @@ const SinglePostPage = () => {
     },
   })
 
+  const { error: editError, isLoading: editLoading, mutate: editPost } = useMutation(updateBlogPost, {
+    onSuccess: (_, variables) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries('posts')
+      queryClient.invalidateQueries(['post', variables.postId])
+    },
+  })
+
   if (isLoading) {
     return <Loader />
   }
@@ -41,12 +50,16 @@ const SinglePostPage = () => {
   if (!data) {
     return <Alert variant='light' title="No Posts Here">
     Post not found
+    <br/> 
+      <Link href="/">
+      Back to Posts
+      </Link>
   </Alert>
   }
 
   return (
     <div>
-      <SingleBlogPost post={data} onDelete={deletePostMutation.mutate} />
+      <SingleBlogPost post={data} onDelete={deletePostMutation.mutate} onEdit={editPost} error={error} isLoading={editLoading} />
     </div>
   );
 };

@@ -21,12 +21,8 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 export const fetchBlogPosts = async (params: FetchPostsParams): Promise<Post[]> => {
-    let docsQuery;
-    if (params.title === 'all') {
-        docsQuery = query(collection(db, "blogPosts"), orderBy("createdTimestamp"), startAfter(params.start), limit(params.limit));
-    } else {
-       docsQuery = query(collection(db, "blogPosts"), where(params.title, "==", params.title), orderBy("createdTimestamp"), );
-    }
+    
+       const  docsQuery = query(collection(db, "blogPosts"), orderBy("createdTimestamp"));
     const snapshot = await getDocs(docsQuery)
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Post[];
   };

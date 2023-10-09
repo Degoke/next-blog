@@ -6,6 +6,7 @@ import { Post } from '@/library/types';
 import { deleteBlogPost, fetchBlogPost, fetchBlogPosts, updateBlogPost } from '@/services/firebase';
 import { Alert, Loader } from '@mantine/core';
 import { update } from 'firebase/database';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query'
@@ -42,6 +43,10 @@ const EditPostPage = () => {
   if (!data) {
     return <Alert variant='light' title="No Posts Here">
     Post not found
+    <br />
+    <Link href="/">
+    Back to Posts
+    </Link>
   </Alert>
   }
 

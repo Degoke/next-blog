@@ -8,6 +8,7 @@ import {
   Textarea,
   Flex,
   Center,
+  Container,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
@@ -49,7 +50,7 @@ const SingleBlogPost = ({ post, onDelete, onEdit, isLoading }: PageProps) => {
         <Title order={1}>{post.title}</Title>
       </Center>
       <Divider size="xl" mb={16} />
-      <pre dangerouslySetInnerHTML={{ __html: post.content }}></pre>
+      <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
       <Divider size="xl" mb={16} />
       <div>
         <p>By: Anonymous User</p>

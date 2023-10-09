@@ -1,84 +1,85 @@
 import { Post, UpdatePostParams } from "@/library/types";
-import { Group, ActionIcon, Title, Button, Divider, Modal, Textarea, Flex } from "@mantine/core";
+import {
+  Group,
+  Title,
+  Button,
+  Divider,
+  Modal,
+  Textarea,
+  Flex,
+  Center,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconArrowNarrowLeft } from "@tabler/icons-react";
-import { generateHTML } from "@tiptap/react";
-import { increment } from "firebase/firestore";
 import Link from "next/link";
-import { ReactNode, createElement, useEffect, useMemo, useRef, useState } from "react";
-import { json } from "stream/consumers";
+import { useState } from "react";
 import { Comment } from "../Comment/Comment";
+import { NextSeo } from 'next-seo'
 
 type PageProps = {
-    post: Post
-    onDelete: (id: string) => void
-    onEdit: (params: UpdatePostParams, options?: any) => void,
-    error: any
-    isLoading: boolean
-}
-
-function elementFromString(value: string) {
-    const htmlDoc = document.createElement('pre')
-    htmlDoc.innerHTML = value.trim()
-    const element = createElement('div')
-    element.props.dangerouslySetInnerHTML = {
-        __html: htmlDoc
-    }
-    return element
-  }
+  post: Post;
+  onDelete: (id: string) => void;
+  onEdit: (params: UpdatePostParams, options?: any) => void;
+  error: any;
+  isLoading: boolean;
+};
 
 const SingleBlogPost = ({ post, onDelete, onEdit, isLoading }: PageProps) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState("");
 
   const addComment = () => {
     let comments;
-    if(post.comments) {
-      comments = [...post.comments, comment]
+    if (post.comments) {
+      comments = [...post.comments, comment];
     } else {
-      comments = [comment]
+      comments = [comment];
     }
     onEdit({
       postId: post.id,
-      post: { comments }
-    })
-  }
-    return (
-        <>
-        <Flex gap="md"
-      justify="center"
-      align="center"
-      direction="row"
-      wrap="wrap">
+      post: { comments },
+    });
+  };
+  return (
+    <>
+    <NextSeo
+      title={post.title}
+      description={post.title}
+    />
+      <Center mb={16}>
+        <Title order={1}>{post.title}</Title>
+      </Center>
+      <Divider size="xl" mb={16} />
+      <pre dangerouslySetInnerHTML={{ __html: post.content }}></pre>
+      <Divider size="xl" mb={16} />
       <div>
-      <Title order={1}>{post.title}</Title>
-        <p>By: Anonyous User</p>
+        <p>By: Anonymous User</p>
         <p>Date: {new Date(post.createdTimestamp).toLocaleDateString()}</p>
-        <p>LastEdited: {new Date(post.updatedTimestamp).toLocaleDateString()}</p>
-
+        <p>
+          LastEdited: {new Date(post.updatedTimestamp).toLocaleDateString()}
+        </p>
       </div>
-      <Link href={`/posts/edit/${post.id}`} passHref>
-      <Button>Edit Post</Button>
-      </Link>
-      
-      <Button onClick={open}>Delete Post</Button>
-        </Flex>
-        
-        <Divider size="xl" />
-        
-        <pre dangerouslySetInnerHTML={{__html: post.content}}></pre>
-      <Divider size="xl" />
-      
-      <Title order={3}>
+      <Flex gap="md" align="center" direction="row" wrap="wrap" mb={16}>
+        <Link href={`/posts/edit/${post.id}`} passHref>
+          <Button variant="outline">Edit Post</Button>
+        </Link>
+
+        <Button variant="outline" color="red" onClick={open}>Delete Post</Button>
+      </Flex>
+
+      <Title order={3} mb={16}>
         Add Comment
       </Title>
-      <Textarea onChange={(e) => setComment(e.target.value)} />
-      <Button onClick={addComment} loading={isLoading}>Comment</Button>
+      <Textarea mb={16} onChange={(e) => setComment(e.target.value)} />
+      <Button variant="light" mb={16} onClick={addComment} loading={isLoading}>
+        Comment
+      </Button>
 
-      <Title order={3}>
+      <Title mb={16} order={3}>
         Comments
       </Title>
-      {post.comments?.map((comment) => <Comment key={comment} comment={comment} />)}
+      {post.comments?.map((comment) => (
+        <Comment key={comment} comment={comment} />
+      ))}
       <Modal opened={opened} onClose={close} size="auto" title="Delete Post">
         <p>Are you sure you want to delete the post {post.title}</p>
 
@@ -86,14 +87,13 @@ const SingleBlogPost = ({ post, onDelete, onEdit, isLoading }: PageProps) => {
           <Button variant="outline" onClick={close}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={() => onDelete(post.id)}>
+          <Button variant="outline" color="red" onClick={() => onDelete(post.id)}>
             Delete
           </Button>
         </Group>
       </Modal>
-      </>
-    );
-  };
-  
-  export default SingleBlogPost;
-  
+    </>
+  );
+};
+
+export default SingleBlogPost;
